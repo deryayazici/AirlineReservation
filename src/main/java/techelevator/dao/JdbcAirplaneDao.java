@@ -1,0 +1,46 @@
+package techelevator.dao;
+
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
+import techelevator.model.Airplane;
+
+public class JdbcAirplaneDao implements AirplaneDao{
+    private JdbcTemplate jdbcTemplate;
+
+    public JdbcAirplaneDao(JdbcTemplate jdbcTemplate) {
+
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+
+
+    @Override
+    public Airplane getAirplane(int flightId) {
+
+        Airplane airplane = null;
+        String sql = "SELECT * FROM airplane JOIN flight USING (airplane_id) WHERE flight_id =?;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, flightId);
+        if (results.next()) {
+            airplane = mapRowToAirplane(results);
+        }
+        return airplane;
+    }
+
+
+    private Airplane mapRowToAirplane(SqlRowSet rowSet) {
+        Airplane airplane = new Airplane();
+        airplane.setAirplaneId(rowSet.getInt("airplane_id"));
+        airplane.setPlaneName(rowSet.getString("plane_name"));
+        airplane.setBusinessClassSeat(rowSet.getInt("business_class_seats"));
+        airplane.setBusinessClassSeatPrice(rowSet.getDouble("business_class_price"));
+        airplane.setEconomyClassSeat(rowSet.getInt("economy_class_seats"));
+        airplane.setEconomyClassSeatPrice(rowSet.getDouble("economy_class_price"));
+        airplane.setFirstClassSeat(rowSet.getInt("first_class_seats"));
+        airplane.setFirstClassSeatPrice(rowSet.getDouble("first_class_price"));
+        airplane.setAirlineId(rowSet.getInt("airline_id"));
+
+        return airplane;
+
+    }
+
+}
