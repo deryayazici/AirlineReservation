@@ -42,11 +42,11 @@ public class AirlineReservation {
 
             }
             if (selection == 2) {
-                reservationDao.cancellationMenu();
+               // reservationDao.cancellationMenu();
             }
 
             if (selection == 3) {
-                System.out.println("Have a nice day!");
+                System.out.println("Thank you for choosing us!");
 
             } else {
                 displayError("Invalid option selected.");

@@ -39,7 +39,62 @@ public class JdbcReservationDao implements ReservationDao {
         passengerDao = new JdbcPassengerDao(jdbcTemplate);
         airplaneDao = new JdbcAirplaneDao(jdbcTemplate);
     }
+    public void bookingMenu() {
+        boolean hasChosen = true;
 
+        while (hasChosen) {
+            System.out.println("-----------------------------------------");
+            System.out.println("|  Welcome to the Booking Menu  |");
+            System.out.println("-----------------------------------------");
+
+            System.out.println("(1)Departure City: ");
+            String departureCity = userInput.nextLine();
+
+            System.out.println("(2)Arrival City: ");
+            String arrivalCity = userInput.nextLine();
+
+            System.out.println("(3)Departure Date: ");
+            String departureDate = userInput.nextLine();
+            LocalDate date = LocalDate.parse(departureDate);
+
+
+            if (dao.getFlights(departureCity, arrivalCity, date).size() == 0) {
+                System.out.println("No flights!");
+            } else {
+                List<Flight> flightList = dao.getFlights(departureCity, arrivalCity, date);
+                System.out.println(flightList);
+              //  reservationMenu();
+                hasChosen = false;
+
+            }
+
+        }
+
+    }
+    @Override
+    public Double getTotalPrice(int reservationId) {
+        double totalPrice = 0;
+
+        if (getReservation(reservationId) != null) {
+            if (getReservation(reservationId).getTypeOfSeats().equalsIgnoreCase("F")) {
+
+                totalPrice = airplaneDao.getAirplane(getReservation(reservationId).getFlightId()).getFirstClassSeatPrice() * (getReservation(reservationId).getNumberOfSeats());
+            }
+            if (getReservation(reservationId).getTypeOfSeats().equalsIgnoreCase("B")) {
+
+                totalPrice = airplaneDao.getAirplane(getReservation(reservationId).getFlightId()).getBusinessClassSeatPrice() * (getReservation(reservationId).getNumberOfSeats());
+            }
+            if (getReservation(reservationId).getTypeOfSeats().equalsIgnoreCase("E")) {
+
+                totalPrice = airplaneDao.getAirplane(getReservation(reservationId).getFlightId()).getEconomyClassSeatPrice() * (getReservation(reservationId).getNumberOfSeats());
+            }
+
+            System.out.println("Total price: " + totalPrice);
+
+
+        }
+        return totalPrice;
+    }
 
     @Override
     public Reservation getReservation(int reservationId) {
@@ -56,6 +111,21 @@ public class JdbcReservationDao implements ReservationDao {
             reservation = mapRowToReservation(results);
         }
         return reservation;
+    }
+    @Override
+    public Reservation makeReservation(Reservation reservation) {
+
+        String sql = "" +
+                "INSERT INTO reservation (flight_id,email,type_of_seats,number_of_seats) " +
+                "VALUES (?, ?,?,?) " +
+                "RETURNING reservation_id;";
+
+        Integer reservationId = jdbcTemplate.queryForObject(sql, Integer.class, reservation.getFlightId(),reservation.getEmail(),reservation.getTypeOfSeats(),reservation.getNumberOfSeats());
+
+
+        Reservation theReservation = getReservation(reservationId);
+
+        return theReservation;
     }
 
     private Reservation mapRowToReservation(SqlRowSet rowSet) {
