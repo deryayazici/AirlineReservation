@@ -63,12 +63,112 @@ public class JdbcReservationDao implements ReservationDao {
             } else {
                 List<Flight> flightList = dao.getFlights(departureCity, arrivalCity, date);
                 System.out.println(flightList);
-              //  reservationMenu();
+                reservationMenu();
                 hasChosen = false;
 
             }
 
         }
+
+    }
+    public void reservationMenu() {
+        boolean hasReservation = true;
+
+        while (hasReservation) {
+            System.out.println("(1)Enter the FlightId number to select your flight: ");
+            String flightId = userInput.nextLine();
+            int flightNum = Integer.parseInt(flightId);
+
+            System.out.println (airplaneDao.getAirplane(flightNum));
+            hasReservation = false;
+
+
+            System.out.println("(2)Select your seat type((F)irst Class, (B)usiness CLass, (E)conomy Class: ");
+            String seatType = userInput.nextLine();
+
+            System.out.println("(3) Enter number of passenger: ");
+            String passengers = userInput.nextLine();
+            int passengerNum = Integer.parseInt(passengers);
+
+            if (seatType.equalsIgnoreCase("F")) {
+                if (airplaneDao.firstClassSeats(flightNum) >= passengerNum) {
+                    System.out.println("(1) Do you want to continue to make reservation ((Y)es,(N)o: ");
+                    String confirmation = userInput.nextLine();
+                    if (confirmation.equalsIgnoreCase("N")) {
+                        break;
+                    }
+                    else if (confirmation.equalsIgnoreCase("Y")) {
+                        passengerDao.addNewPassenger();
+                        int airplaneId=airplaneDao.getAirplane(flightNum).getAirplaneId();
+                        airplaneDao.reserveFirstSeats(airplaneId,passengerNum);
+                        Reservation newReservation = addNewReservation();
+                        System.out.println(getTotalPrice(newReservation.getReservationId()));
+                    }
+                    else {
+                        System.out.println("Please enter (Y) for yes , (N) for no!");
+                    }
+
+                }
+                else {
+                    System.out.println("No available seat!");
+                }
+
+            }
+            if (seatType.equalsIgnoreCase("B")) {
+                if (airplaneDao.businessClassSeats(flightNum) >= passengerNum) {
+                    System.out.println("(1) Do you want to continue to make reservation ((Y)es,(N)o: ");
+                    String confirmation = userInput.nextLine();
+                    if (confirmation.equalsIgnoreCase("N")) {
+                        break;
+                    }
+                    else if (confirmation.equalsIgnoreCase("Y")) {
+                        passengerDao.addNewPassenger();
+                        int airplaneId=airplaneDao.getAirplane(flightNum).getAirplaneId();
+                        airplaneDao.reserveBusinessSeats(airplaneId,passengerNum);
+                        Reservation newReservation = addNewReservation();
+                        System.out.println(getTotalPrice(newReservation.getReservationId()));
+
+                    }
+                    else {
+                        System.out.println("Please enter (Y) for yes , (N) for no!");
+                    }
+
+                } else {
+                    System.out.println("No available seat!");
+                }
+
+            }
+            if (seatType.equalsIgnoreCase("E")) {
+                if (airplaneDao.economyClassSeats(flightNum) >= passengerNum) {
+                    System.out.println("(1) Do you want to continue to make reservation ((Y)es,(N)o: ");
+                    String confirmation = userInput.nextLine();
+                    if (confirmation.equalsIgnoreCase("N")) {
+                        break;
+                    }
+                    else if (confirmation.equalsIgnoreCase("Y")) {
+                        passengerDao.addNewPassenger();
+                        int airplaneId=airplaneDao.getAirplane(flightNum).getAirplaneId();
+                        airplaneDao.reserveEconomySeats(airplaneId,passengerNum);
+                        Reservation newReservation = addNewReservation();
+                        System.out.println(getTotalPrice(newReservation.getReservationId()));
+
+
+
+                    }
+                    else {
+                        System.out.println("Please enter (Y) for yes , (N) for no!");
+                    }
+
+                }
+                else {
+                    System.out.println("No available seat!");
+                }
+
+            }
+
+
+        }
+
 
     }
     @Override
@@ -138,6 +238,82 @@ public class JdbcReservationDao implements ReservationDao {
 
         return reservation;
     }
+
+    private Reservation  addNewReservation() {
+        Reservation newReservation = promptForNewReservationData();
+
+        newReservation = makeReservation(newReservation);
+        System.out.println(newReservation);
+
+        return newReservation;
+    }
+
+    private Reservation promptForNewReservationData() {
+
+        Reservation reservation = new Reservation();
+
+        String email = "";
+        while (email.isBlank()) {
+            email =promptForString("Email: ");
+        }
+        reservation.setEmail(email);
+
+        String flightId = "";
+        while (flightId.isBlank()) {
+            flightId =promptForString("FlightId: ");
+
+        }
+        int flightNum = Integer.parseInt(flightId);
+        reservation.setFlightId(flightNum);
+
+
+        String seatType="";
+        while(seatType.isBlank()){
+            seatType = promptForString("Seat Type((F)irst,(B)usiness,(E)conomy): ");
+        }
+        reservation.setTypeOfSeats(seatType);
+
+        String passengerNum ="";
+
+        while(passengerNum.isBlank()){
+            passengerNum = promptForString("Number of passengers: ");
+        }
+
+        int passengerNumber = Integer.parseInt(passengerNum);
+        reservation.setNumberOfSeats(passengerNumber);
+
+        return reservation;
+    }
+
+    private String promptForString(String prompt) {
+        System.out.print(prompt);
+        return userInput.nextLine();
+    }
+    private int promptForInt(String prompt) {
+        return (int) promptForDouble(prompt);
+    }
+
+    private double promptForDouble(String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            String response = userInput.nextLine();
+            try {
+                return Double.parseDouble(response);
+            }  catch (NumberFormatException e) {
+                if (response.isBlank()) {
+                    return -1; //Assumes negative numbers are never valid entries.
+                } else {
+                    displayError("Numbers only, please.");
+                }
+            }
+        }
+    }
+    private void displayError(String message) {
+        System.out.println();
+        System.out.println("***" + message + "***");
+        System.out.println();
+    }
+
 
 
 }

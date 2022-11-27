@@ -41,6 +41,53 @@ public class JdbcPassengerDao implements PassengerDao {
         return passenger;
 
     }
+    @Override
+    public Passenger createPassenger(Passenger passenger) {
+        String sql = "INSERT INTO passenger (email, last_name, first_name, phone_number) " +
+                "VALUES (?, ?, ?, ?) RETURNING passenger_id;";
+        Integer passengerId = jdbcTemplate.queryForObject(sql, Integer.class,
+                passenger.getEmail(),passenger.getLastName(), passenger.getFirstName(), passenger.getPhoneNumber());
+
+        Passenger thePassenger =getPassenger(passengerId);
+        return thePassenger;
+    }
+    public Passenger addNewPassenger() {
+        Passenger newPassenger = promptForNewPassengerData();
+        newPassenger=createPassenger(newPassenger);
+        System.out.println("\nConfirm your reservation!");
+        return newPassenger;
+    }
+    public Passenger promptForNewPassengerData() {
+        Passenger passenger = new Passenger();
+
+
+        String email = "";
+        while (email.isBlank()) {
+            email =promptForString("Email: ");
+        }
+        passenger.setEmail(email);
+
+
+        String firstName = "";
+        while (firstName.isBlank()) {
+            firstName = promptForString("First Name: ");
+        }
+        passenger.setFirstName(firstName);
+
+        String lastName = "";
+        while (lastName.isBlank()) {
+            lastName = promptForString("Last Name: ");
+        }
+        passenger.setLastName(lastName);
+
+        String phoneNumber = "";
+        while (phoneNumber.isBlank()) {
+            phoneNumber = promptForString("Phone Number: ");
+        }
+        passenger.setPhoneNumber(phoneNumber);
+        return passenger;
+
+    }
 
     private Passenger mapRowToPassenger(SqlRowSet rowSet) {
         Passenger passenger = new Passenger();
@@ -50,6 +97,10 @@ public class JdbcPassengerDao implements PassengerDao {
         passenger.setPhoneNumber(rowSet.getString("phone_number"));
 
         return passenger;
+    }
+    private String promptForString(String prompt) {
+        System.out.print(prompt);
+        return userInput.nextLine();
     }
 
 }

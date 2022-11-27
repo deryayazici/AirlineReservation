@@ -26,6 +26,79 @@ public class JdbcAirplaneDao implements AirplaneDao{
         return airplane;
     }
 
+    @Override
+    public int firstClassSeats(int flightId) {
+
+        int firstClass =0;
+
+        String sql = "SELECT first_class_seats FROM airplane JOIN flight USING (airplane_id) WHERE flight_id =?";
+        SqlRowSet result = jdbcTemplate.queryForRowSet(sql, flightId);
+        if (result.next()) {
+            firstClass = result.getInt("first_class_seats");
+        }
+        return firstClass;
+    }
+
+    @Override
+    public int businessClassSeats(int flightId) {
+        int businessClass =0;
+
+        String sql = "SELECT business_class_seats FROM airplane JOIN flight USING (airplane_id) WHERE flight_id =?";
+        SqlRowSet result = jdbcTemplate.queryForRowSet(sql, flightId);
+        if (result.next()) {
+            businessClass = result.getInt("business_class_seats");
+        }
+        return businessClass;
+    }
+
+    @Override
+    public int economyClassSeats(int flightId) {
+        int economyClass =0;
+
+        String sql = "SELECT economy_class_seats FROM airplane JOIN flight USING (airplane_id) WHERE flight_id =?";
+        SqlRowSet result = jdbcTemplate.queryForRowSet(sql, flightId);
+        if (result.next()) {
+            economyClass = result.getInt("economy_class_seats");
+        }
+        return economyClass;
+    }
+
+    @Override
+    public void reserveBusinessSeats(int airplaneId, int numberOfPassengers) {
+        String sql = "" +
+                "UPDATE airplane " +
+                "SET  business_class_seats = business_class_seats - ? " +
+                "WHERE airplane_id = ? ;";
+
+        jdbcTemplate.update(sql,numberOfPassengers,airplaneId);
+
+    }
+
+
+
+    @Override
+    public void reserveEconomySeats(int airplaneId, int numberOfPassengers) {
+        String sql = "" +
+                "UPDATE airplane " +
+                "SET  economy_class_seats = economy_class_seats - ? " +
+                "WHERE airplane_id = ? ;";
+
+        jdbcTemplate.update(sql,numberOfPassengers,airplaneId);
+
+
+    }
+
+    @Override
+    public void reserveFirstSeats(int airplaneId, int numberOfPassengers) {
+        String sql = "" +
+                "UPDATE airplane " +
+                "SET  first_class_seats = first_class_seats - ? " +
+                "WHERE airplane_id = ? ;";
+
+        jdbcTemplate.update(sql,numberOfPassengers,airplaneId);
+
+    }
+
 
     private Airplane mapRowToAirplane(SqlRowSet rowSet) {
         Airplane airplane = new Airplane();
