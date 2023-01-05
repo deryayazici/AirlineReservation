@@ -8,10 +8,10 @@ import java.util.Date;
 public class Flight {
     private int flightId;
     private int airplaneId;
-    private Date departureDate;
+    private LocalDate departureDate;
     private String departureAirportName;
     private String destinationAirportName;
-    private Date arrivalDate;
+    private LocalDate arrivalDate;
     private LocalTime departureTime;
     private LocalTime arrivalTime;
 
@@ -35,7 +35,7 @@ public class Flight {
 
     }
 
-    public Flight(int flightId, int airplaneId, Date departureDate, String departureAirportName, String destinationAirportName, Date arrivalDate) {
+    public Flight(int flightId, int airplaneId, LocalDate departureDate, String departureAirportName, String destinationAirportName, LocalDate arrivalDate) {
         this.flightId = flightId;
         this.airplaneId = airplaneId;
         this.departureDate = departureDate;
@@ -60,11 +60,11 @@ public class Flight {
         this.airplaneId = airplaneId;
     }
 
-    public Date getDepartureDate() {
+    public LocalDate getDepartureDate() {
         return departureDate;
     }
 
-    public void setDepartureDate(Date departureDate) {
+    public void setDepartureDate(LocalDate departureDate) {
         this.departureDate = departureDate;
     }
 
@@ -84,11 +84,11 @@ public class Flight {
         this.destinationAirportName = destinationAirportName;
     }
 
-    public Date getArrivalDate() {
+    public LocalDate getArrivalDate() {
         return arrivalDate;
     }
 
-    public void setArrivalDate(Date arrivalDate) {
+    public void setArrivalDate(LocalDate arrivalDate) {
         this.arrivalDate = arrivalDate;
     }
 

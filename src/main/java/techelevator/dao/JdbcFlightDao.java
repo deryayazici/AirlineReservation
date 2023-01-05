@@ -58,8 +58,8 @@ public class JdbcFlightDao implements FlightDao {
         Flight flight = new Flight();
         flight.setFlightId(rowSet.getInt("flight_id"));
         flight.setAirplaneId(rowSet.getInt("airplane_id"));
-        flight.setDepartureDate(rowSet.getDate("departure_date"));
-        flight.setArrivalDate(rowSet.getDate("arrival_date"));
+        flight.setDepartureDate(rowSet.getDate("departure_date").toLocalDate());
+        flight.setArrivalDate(rowSet.getDate("arrival_date").toLocalDate());
         flight.setDepartureAirportName(rowSet.getString("departure_airport_name"));
         flight.setDestinationAirportName(rowSet.getString("arrival_airport_name"));
         flight.setArrivalTime(rowSet.getTime("arrival_time").toLocalTime());

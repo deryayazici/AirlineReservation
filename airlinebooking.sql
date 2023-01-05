@@ -14,7 +14,7 @@ CREATE TABLE airline
 CREATE TABLE airplane
 (
     airplane_id serial,
-    plane_name varchar(50) not null,
+    plane_type varchar(50) not null,
     first_class_seats int not null,
 	first_class_price decimal not null,
     business_class_seats int not null,
@@ -81,3 +81,26 @@ CREATE TABLE reservation
 );
 
 COMMIT;
+
+INSERT INTO airline (airline_name)
+VALUES ('Turkish Airlines');
+
+Insert Into airplane (plane_type,first_class_seats,first_class_price,business_class_seats, business_class_price,economy_class_seats,economy_class_price,airline_id)
+Values ('Boeing 747',6,3000,26,2000,314,1200,1);
+
+Insert Into airplane (plane_type,first_class_seats,first_class_price,business_class_seats, business_class_price,economy_class_seats,economy_class_price,airline_id)
+Values ('Boeing 787',0,0,48,2000,146,800,1);
+
+Insert Into airplane (plane_type,first_class_seats,first_class_price,business_class_seats, business_class_price,economy_class_seats,economy_class_price,airline_id)
+Values ('Airbus A350',0,0,40,2100,263,850,1);
+
+Insert Into airport (airport_name, city_name, country_name)
+Values ('Istanbul Airport', 'Istanbul','Turkey');
+
+Insert Into airport (airport_name, city_name, country_name)
+Values ('Dulles International Airport', 'Washington DC','USA');
+
+Insert into flight (airplane_id,departure_date,arrival_date,departure_airport_name,arrival_airport_name,departure_time,arrival_time,departure_airport_id,arrival_airport_id)
+Values (1,'01/15/2023','01/15/2023','Istanbul Airport','Dulles International Airport','16:00','20:00',1,2)
+
+
