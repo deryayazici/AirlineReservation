@@ -301,7 +301,7 @@ public class JdbcReservationDao implements ReservationDao {
                 return Double.parseDouble(response);
             }  catch (NumberFormatException e) {
                 if (response.isBlank()) {
-                    return -1; //Assumes negative numbers are never valid entries.
+                    return -1;
                 } else {
                     displayError("Numbers only, please.");
                 }
