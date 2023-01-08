@@ -91,6 +91,7 @@ public class JdbcPassengerDao implements PassengerDao {
 
     private Passenger mapRowToPassenger(SqlRowSet rowSet) {
         Passenger passenger = new Passenger();
+        passenger.setPassengerId(rowSet.getInt("passenger_id"));
         passenger.setEmail(rowSet.getString("email"));
         passenger.setFirstName(rowSet.getString("first_name"));
         passenger.setLastName(rowSet.getString("last_name"));

@@ -103,7 +103,7 @@ public class JdbcAirplaneDao implements AirplaneDao{
     private Airplane mapRowToAirplane(SqlRowSet rowSet) {
         Airplane airplane = new Airplane();
         airplane.setAirplaneId(rowSet.getInt("airplane_id"));
-        airplane.setPlaneName(rowSet.getString("plane_name"));
+        airplane.setPlaneName(rowSet.getString("plane_type"));
         airplane.setBusinessClassSeat(rowSet.getInt("business_class_seats"));
         airplane.setBusinessClassSeatPrice(rowSet.getDouble("business_class_price"));
         airplane.setEconomyClassSeat(rowSet.getInt("economy_class_seats"));
