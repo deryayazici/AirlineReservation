@@ -197,6 +197,13 @@ public class JdbcReservationDao implements ReservationDao {
     }
 
     @Override
+    public void cancelReservation(int reservationId) {
+        String sql = "DELETE FROM reservation WHERE reservation_id = ?;";
+        jdbcTemplate.update(sql, reservationId);
+
+    }
+
+    @Override
     public Reservation getReservation(int reservationId) {
         Reservation reservation = null;
 

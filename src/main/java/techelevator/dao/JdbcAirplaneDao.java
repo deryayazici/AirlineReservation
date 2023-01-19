@@ -98,6 +98,37 @@ public class JdbcAirplaneDao implements AirplaneDao{
         jdbcTemplate.update(sql,numberOfPassengers,airplaneId);
 
     }
+    @Override
+    public void returnBusinessSeats(int airplaneId, int numberOfPassengers) {
+        String sql = "" +
+                "UPDATE airplane " +
+                "SET  business_class_seats = business_class_seats + ? " +
+                "WHERE airplane_id = ? ;";
+
+        jdbcTemplate.update(sql,numberOfPassengers,airplaneId);
+    }
+
+    @Override
+    public void returnEconomySeats(int airplaneId, int numberOfPassengers) {
+        String sql = "" +
+                "UPDATE airplane " +
+                "SET  economy_class_seats = economy_class_seats + ? " +
+                "WHERE airplane_id = ? ;";
+
+        jdbcTemplate.update(sql,numberOfPassengers,airplaneId);
+
+    }
+
+    @Override
+    public void returnFirstSeats(int airplaneId, int numberOfPassengers) {
+        String sql = "" +
+                "UPDATE airplane " +
+                "SET  first_class_seats = first_class_seats + ? " +
+                "WHERE airplane_id = ? ;";
+
+        jdbcTemplate.update(sql,numberOfPassengers,airplaneId);
+
+    }
 
 
     private Airplane mapRowToAirplane(SqlRowSet rowSet) {

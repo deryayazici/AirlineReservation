@@ -12,6 +12,9 @@ public interface AirplaneDao {
     void reserveBusinessSeats(int airplaneId, int numberOfPassengers);
     void reserveEconomySeats(int airplaneId, int numberOfPassengers);
     void reserveFirstSeats(int airplaneId, int numberOfPassengers);
+    void returnBusinessSeats(int airplaneId, int numberOfPassengers);
+    void returnEconomySeats(int airplaneId, int numberOfPassengers);
+    void returnFirstSeats(int airplaneId, int numberOfPassengers);
 
 
 }

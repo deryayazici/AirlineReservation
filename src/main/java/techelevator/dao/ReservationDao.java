@@ -10,6 +10,7 @@ public interface ReservationDao {
      Reservation makeReservation(Reservation reservation);
 
      Double getTotalPrice(int reservationId);
+     void cancelReservation(int reservationId);
 
 
 }
