@@ -57,6 +57,15 @@ public class JdbcPassengerDao implements PassengerDao {
         System.out.println("\nConfirm your reservation!");
         return newPassenger;
     }
+
+    @Override
+    public void deletePassenger(int passengerId) {
+        String sql = "Delete From passenger Where passengerId = ?;";
+
+        jdbcTemplate.update(sql,passengerId);
+
+    }
+
     public Passenger promptForNewPassengerData() {
         Passenger passenger = new Passenger();
 

@@ -42,7 +42,7 @@ public class AirlineReservation {
 
             }
             if (selection == 2) {
-               // reservationDao.cancellationMenu();
+                reservationDao.cancellationMenu();
             }
 
             if (selection == 3) {

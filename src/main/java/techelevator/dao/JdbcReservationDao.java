@@ -292,6 +292,53 @@ public class JdbcReservationDao implements ReservationDao {
         return reservation;
     }
 
+    public void cancellationMenu() {
+        boolean hasChosen = true;
+
+        while (hasChosen) {
+            System.out.println("-----------------------------------------");
+            System.out.println("|  Cancel Your Reservation  |");
+            System.out.println("-----------------------------------------");
+
+            System.out.println("(1)Enter your passengerId: ");
+            String passengerId = userInput.nextLine();
+
+            Integer passengerIdNum = Integer.parseInt(passengerId);
+
+            System.out.println("(2)Enter your reservationId: ");
+            String reservationId = userInput.nextLine();
+            Integer reservationIdNum = Integer.parseInt(reservationId);
+
+
+
+            if (getReservation(reservationIdNum)==null || passengerDao.getPassenger(passengerIdNum)== null){
+                System.out.println("Reservation has not found!");
+            } else {
+                System.out.println(" Enter (Y)es to confirm cancellation or (N)o to cancel:  ");
+                String cancel = userInput.nextLine();
+                if (cancel.equalsIgnoreCase("N")) {
+                    break;
+                }
+
+
+                if (cancel.equalsIgnoreCase("N")) {
+                    break;
+                }
+                else if (cancel.equalsIgnoreCase("Y")) {
+                    passengerDao.deletePassenger(passengerIdNum);
+                    String seatType = getReservation(reservationIdNum).getTypeOfSeats();
+                    Integer numberOfPassengers = getReservation(reservationIdNum).getNumberOfSeats();
+                    /* update seats!**/
+                    
+
+                }
+
+            }
+
+        }
+
+    }
+
     private String promptForString(String prompt) {
         System.out.print(prompt);
         return userInput.nextLine();

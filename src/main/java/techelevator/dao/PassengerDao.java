@@ -8,4 +8,6 @@ public interface PassengerDao {
     Passenger getPassenger (Integer passengerId);
     Passenger addNewPassenger();
 
+    void deletePassenger(int passengerId);
+
 }
