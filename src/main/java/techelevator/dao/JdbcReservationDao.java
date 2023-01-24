@@ -328,15 +328,20 @@ public class JdbcReservationDao implements ReservationDao {
                     passengerDao.deletePassenger(passengerIdNum);
                     String seatType = getReservation(reservationIdNum).getTypeOfSeats();
                     Integer numberOfPassengers = getReservation(reservationIdNum).getNumberOfSeats();
-                    /* update seats!**/
-                    
-
+                    Integer airplaneId = dao.getFlight(getReservation(reservationIdNum).getFlightId()).getAirplaneId();
+                    cancelReservation(reservationIdNum);
+                    if (seatType=="F") {
+                    airplaneDao.returnFirstSeats(airplaneId,numberOfPassengers);
+                    }
+                    if (seatType=="B") {
+                        airplaneDao.returnBusinessSeats(airplaneId,numberOfPassengers);
+                    }
+                    if (seatType=="E") {
+                        airplaneDao.returnEconomySeats(airplaneId,numberOfPassengers);
+                    }
                 }
-
             }
-
         }
-
     }
 
     private String promptForString(String prompt) {
