@@ -1,4 +1,4 @@
-# Airline Reservation System
+# Flight Reservation System
 
 **Overview**
 
@@ -26,14 +26,14 @@ This command-line application, developed in Java with PostgreSQL, enables users 
 
 **1. Clone the Repository:**
 ``` bash
- git clone https://github.com/deryayazici/AirlineReservation.git
+ git clone https://github.com/deryayazici/FlightReservation.git
 ```
 
 **2. Database Configuration**:
 
 - Install PostgreSQL.
 - Create a database named
-  ```airline_reservation```.
+  ```Flight_reservation```.
 - Execute the provided SQL script to set up the necessary tables.
 
 
@@ -44,7 +44,7 @@ This command-line application, developed in Java with PostgreSQL, enables users 
 
 ## Repository Link
 
-[Airline Reservation System](https://github.com/deryayazici/AirlineReservation/)
+[Flight Reservation System](https://github.com/deryayazici/FlightReservation/)
 
 
 
